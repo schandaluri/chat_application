@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block content %}
+<form action="{{ app_path }}" method="post" id="login-form" class="form-signin">{% csrf_token %}
+  <h1 class="h3 mb-3 font-weight-normal">LogIn</h1>
+  {% bootstrap_form_errors form %}
+  <div class="form-row">
+    {% bootstrap_field form.username form_group_class="form-group w-100" %}
+  </div>
+  <div class="form-row">
+    {% bootstrap_field form.password form_group_class="form-group w-100" %}
+    <input type="hidden" name="next" value="{{ next }}">
+  </div>
+  {% url 'admin_password_reset' as password_reset_url %}
+  {% if password_reset_url %}
+  <div class="password-reset-link">
+    <a href="{{ password_reset_url }}">{{ _('Forgotten your password or username?')}}</a>
+  </div>
+  {% endif %}
+  <div class="submit-row">
+    <label>&nbsp;</label><input type="submit" class="btn btn-primary" value="{{ _('Log in') }}">
+  </div>
+</form>
+
+{% endblock %}
+
+
+{% block style %}
+  <style>
+  .form-signin {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+  }
+  </style>
+{% endblock %}
