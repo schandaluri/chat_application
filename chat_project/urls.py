@@ -18,10 +18,14 @@ from django.urls import path, include
 from django.views.generic.base import RedirectView
 from django.contrib.auth import views
 
+from chat import views as chat_views
+
 urlpatterns = [
     path('', RedirectView.as_view(url='chat')),
     path('admin/', admin.site.urls),
-    path('chat/', include('chat.urls')),
+    path('api/chat/', include('chat.urls')),
     path('login/', views.LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', views.LogoutView.as_view(), name='logout'),
+    path('chat/', chat_views.chat),
+    path('users/create/', chat_views.UserCreateView.as_view())
 ]

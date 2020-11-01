@@ -15,16 +15,25 @@ Including another URLconf
 """
 from django.urls import path
 from rest_framework.routers import SimpleRouter
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
 
 from chat import views
 
 router = SimpleRouter()
+schema_view = get_schema_view(
+    openapi.Info(
+        title="Snippets API",
+        default_version='v1',
+    ),
+    public=True
+)
+
 router.register('messages', views.ChatMessagesViewSet)
 router.register('users', views.UserListViewSet)
 
 urlpatterns = [
-    path('', views.chat),
-    path('users/create', views.UserCreateView.as_view())
+    path('', schema_view.with_ui('swagger', cache_timeout=0))
 ] + router.urls
 
 
